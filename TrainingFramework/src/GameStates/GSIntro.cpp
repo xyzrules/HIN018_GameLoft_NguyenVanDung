@@ -22,7 +22,7 @@ void GSIntro::Init()
 	auto shader = ResourceManagers::GetInstance()->GetShader("AnimationShader");
 	auto texture = ResourceManagers::GetInstance()->GetTexture("logo");
 
-	m_logo = std::make_shared<AnimationSprite>(model, shader, texture, 6, 0.16f, 3);
+	m_logo = std::make_shared<AnimationSprite>(model, shader, texture, 6, 0.13f, 3);
 	m_logo->Set2DPosition(screenWidth / 2, screenHeight / 2);
 	m_logo->SetSize(83, 104);
 }
