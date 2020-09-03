@@ -13,6 +13,7 @@
 #include "GameObject/GameCharacter.h"
 #include "GameObject/GameCharEnemy.h"
 #include "GameObject/GameCharPlayer.h"
+#include "GameObject/GameProjectile.h"
 
 
 class ResourceManagers : public CSingleton<ResourceManagers>

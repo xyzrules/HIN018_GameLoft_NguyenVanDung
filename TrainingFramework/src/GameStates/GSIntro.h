@@ -21,7 +21,7 @@ public:
 	void Draw();
 
 private:
-	std::shared_ptr<Sprite2D> m_logo;
+	std::shared_ptr<AnimationSprite> m_logo;
 	float m_time;
 };
 

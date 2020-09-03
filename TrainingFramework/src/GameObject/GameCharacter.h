@@ -1,5 +1,5 @@
 #pragma once
-#include "Sprite2D.h"
+#include "AnimationSprite.h"
 
 enum CHAR_MOVE_DIRECTION {
 	CHAR_MOVE_DIRECTION_UP		=	1 << 0,
@@ -9,18 +9,21 @@ enum CHAR_MOVE_DIRECTION {
 };
 
 class GameCharacter :
-	public Sprite2D
+	public AnimationSprite
 {
 public:
-	GameCharacter(std::shared_ptr<Models> model, std::shared_ptr<Shaders> shader, std::shared_ptr<Texture> texture);
+	GameCharacter(std::shared_ptr<Models> model, std::shared_ptr<Shaders> shader, std::shared_ptr<Texture> texture, int numFrames, float frameTime);
+	GameCharacter(std::shared_ptr<Models> model, std::shared_ptr<Shaders> shader, std::shared_ptr<Texture> texture, int numFrames, float frameTime, GLfloat moveSpeedVertical, GLfloat moveSpeedHorizontal);
 	~GameCharacter();
 
 
 	virtual void SetMoveDirection();
 	void SetMoveSpeed(GLint moveSpeed);
 	void Update(GLfloat deltaTime);
+	bool GetCharacterFacingRight();
 
 protected:
+	bool m_charFacingRight;
 	GLint m_moveDirection;
 	GLfloat m_moveSpeedVertical, m_moveSpeedHorizontal;
 };

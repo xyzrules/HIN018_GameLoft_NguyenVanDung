@@ -1,7 +1,6 @@
 #pragma once
 #include "gamestatebase.h"
 
-
 class GSPlay :
 	public GameStateBase
 {
@@ -17,18 +16,23 @@ public:
 
 	void HandleEvents();
 	void HandleKeyEvents(int key, bool bIsPressed);
-
 	void HandleTouchEvents(int x, int y, bool bIsPressed);
+
 	void Update(float deltaTime);
 	void Draw();
-
 	
 	void SetNewPostionForBullet();
 
 private:
+	void Gameplay();
+
 	std::shared_ptr<GameCharPlayer> m_player;
+	std::vector<std::shared_ptr<GameProjectile>> m_listProjectile;
+	std::vector<std::shared_ptr<GameCharEnemy>> m_listEnemy;
 	std::shared_ptr<Sprite2D> m_BackGround;
 	std::shared_ptr<Text>  m_score;
 	std::shared_ptr<float> m_timer;
+	std::shared_ptr<float> m_maxEnemy, m_enemyNumberMultiplyer, m_enemyNumberTracker;
+	std::shared_ptr<float> m_enemySpeedMultiplyer, m_enemySpeedTracker;
 };
 
