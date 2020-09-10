@@ -4,18 +4,40 @@ extern GLint screenWidth;
 extern GLint screenHeight;
 
 GameProjectile::GameProjectile(std::shared_ptr<Models> model, std::shared_ptr<Shaders> shader, std::shared_ptr<Texture> texture, int numFrames, float frameTime)
-	: AnimationSprite(model, shader, texture, numFrames, frameTime), m_projectileType(0), m_projectileChar (0)
+	: GameCharacter(model, shader, texture, numFrames, frameTime),
+	m_projectileType(0)
 {
+	m_hitboxVertical = PROJECTILE_VERTICAL_HITBOX;
+	m_hitboxHorizontal = PROJECTILE_HORIZONTAL_HITBOX;
 }
 
-GameProjectile::GameProjectile(std::shared_ptr<Models> model, std::shared_ptr<Shaders> shader, std::shared_ptr<Texture> texture, int numFrames, float frameTime, float loopPoint)
-	: AnimationSprite(model, shader, texture, numFrames, frameTime, loopPoint), m_projectileType(0), m_projectileChar(0)
+GameProjectile::GameProjectile(std::shared_ptr<Models> model, std::shared_ptr<Shaders> shader, std::shared_ptr<Texture> texture, int numFrames, float frameTime, int projectileType)
+	: GameCharacter(model, shader, texture, numFrames, frameTime),
+	m_projectileType(projectileType)
 {
-}
-
-GameProjectile::GameProjectile(std::shared_ptr<Models> model, std::shared_ptr<Shaders> shader, std::shared_ptr<Texture> texture, int numFrames, float frameTime, int projectileType, int projectileChar)
-	: AnimationSprite(model, shader, texture, numFrames, frameTime), m_projectileType(projectileType), m_projectileChar(projectileChar)
-{
+	switch (projectileType) {
+		case PROJECTILE_NORMAL:
+		case PROJECTILE_DROW_1:
+		case PROJECTILE_DROW_2:
+		case PROJECTILE_DROW_3:
+		case PROJECTILE_DROW_4:
+		{
+			m_damagePoints = PROJECTILE_PLAYER_NORMAL_DAMAGE;
+			break;
+		}
+		case PROJECTILE_CM_SKILL:
+		{
+			m_damagePoints = PROJECTILE_SKILL_CM_DAMAGE;
+			break;
+		}
+		case PROJECTILE_LINA_SKILL:
+		{
+			m_damagePoints = PROJECTILE_SKILL_LINA_DAMAGE;
+			break;
+		}
+	}
+	m_hitboxVertical = PROJECTILE_VERTICAL_HITBOX;
+	m_hitboxHorizontal = PROJECTILE_HORIZONTAL_HITBOX;
 }
 
 GameProjectile::~GameProjectile()
@@ -25,20 +47,31 @@ GameProjectile::~GameProjectile()
 void GameProjectile::Update(GLfloat deltaTime)
 {
 	// Default projectile flying right
-	GLfloat xMove = 1.0;
-	Vector2 oldPos = this->Get2DPosition();
-	if (m_projectileType == 0)
+	switch (m_projectileType)
 	{
-		// Projectile flying left
-		xMove = -1.0;
+		case PROJECTILE_NORMAL:
+		{
+			GLfloat xMove = 1.0;
+			Vector2 oldPos = this->Get2DPosition();
+			this->Set2DPosition(oldPos.x + xMove * deltaTime * PROJECTILE_PLAYER_SPEED, oldPos.y);
+			break;
+		}
+		/*
+		case PROJECTILE_ENEMY_RANGE:
+		{
+			GLfloat xMove = 1.0;
+			Vector2 oldPos = this->Get2DPosition();
+			this->Set2DPosition(oldPos.x + xMove * deltaTime * PROJECTILE_ENEMY_RANGE_SPEED, oldPos.y);
+			break;
+		}
+		*/
 	}
-
-	this->Set2DPosition(oldPos.x + xMove * deltaTime * PROJECTILE_SPEED, oldPos.y);
+	
 }
 
 bool GameProjectile::CheckProjectileOutOfBounds()
 {
 	Vector2 pos = Get2DPosition();
-	if (pos.x > screenWidth || pos.x < 0)	return true;
+	if (pos.x > screenWidth || pos.x < 0 || pos.y > screenHeight || pos.y < 0)	return true;
 	return false;
 }

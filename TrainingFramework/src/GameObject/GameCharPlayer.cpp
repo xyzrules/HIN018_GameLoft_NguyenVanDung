@@ -1,18 +1,22 @@
 #include "GameCharPlayer.h"
 
-
-
-
 GameCharPlayer::GameCharPlayer(std::shared_ptr<Models> model, std::shared_ptr<Shaders> shader, std::shared_ptr<Texture> texture, int numFrames, float frameTime)
 	: GameCharacter(model, shader, texture, numFrames, frameTime),
-	m_playerId(1), m_playerCharacter(0), m_playerProjectileReady(false), m_playerTimer(0), m_playerAlive(true)
+	m_playerId(0),
+	m_playerProjectileReady(false),
+	m_playerAttackTimer(0), m_playerSkillTimer(0), m_playerDeathTimer(0),
+	m_playerAttackSpeedMultiplyer(1.0f), m_playerMovementSpeedMultiplyer(1.0f)
 {
-}
+	m_healthPoints = PLAYER_HEALTH_POINTS;
+	m_damagePoints = PLAYER_DAMAGE;
+	m_hitboxVertical = PLAYER_VERTICAL_HITBOX;
+	m_hitboxHorizontal = PLAYER_HORIZONTAL_HITBOX;
+	m_moveSpeedHorizontal = PLAYER_STARTING_HORIZONTAL_SPEED;
+	m_moveSpeedVertical = PLAYER_STARTING_VERTICAL_SPEED;
 
-GameCharPlayer::GameCharPlayer(std::shared_ptr<Models> model, std::shared_ptr<Shaders> shader, std::shared_ptr<Texture> texture, int numFrames, float frameTime, GLfloat moveSpeedVertical, GLfloat moveSpeedHorizontal)
-	: GameCharacter(model, shader, texture, numFrames, frameTime, moveSpeedVertical, moveSpeedHorizontal),
-	m_playerId(1), m_playerCharacter(0), m_playerProjectileReady(false), m_playerTimer(0), m_playerAlive(true)
-{
+	m_moveDirection = 0;
+
+	SetSize(PLAYER_HORIZONTAL_SIZE, PLAYER_VERTICAL_SIZE);
 }
 
 GameCharPlayer::~GameCharPlayer()
@@ -24,13 +28,9 @@ void GameCharPlayer::HandleKeyEvent(int key, bool bIsPressed)
 	if (bIsPressed) {
 		switch (key){
 		case KEY_MOVE_LEFT:
-			if (!(m_moveDirection & CHAR_MOVE_DIRECTION_RIGHT))
-				m_charFacingRight = true;
 			m_moveDirection |= CHAR_MOVE_DIRECTION_LEFT;
 			break;
 		case KEY_MOVE_RIGHT:
-			if (!(m_moveDirection & CHAR_MOVE_DIRECTION_LEFT))
-				m_charFacingRight = false;
 			m_moveDirection |= CHAR_MOVE_DIRECTION_RIGHT;
 			break;
 		case KEY_MOVE_FORWARD:
@@ -45,13 +45,9 @@ void GameCharPlayer::HandleKeyEvent(int key, bool bIsPressed)
 	else {
 		switch (key) {
 		case KEY_MOVE_LEFT:
-			if (m_moveDirection & CHAR_MOVE_DIRECTION_RIGHT)
-				m_charFacingRight = true;
 			m_moveDirection &= ~CHAR_MOVE_DIRECTION_LEFT;
 			break;
 		case KEY_MOVE_RIGHT:
-			if (m_moveDirection & CHAR_MOVE_DIRECTION_LEFT)
-				m_charFacingRight = false;
 			m_moveDirection &= ~CHAR_MOVE_DIRECTION_RIGHT;
 			break;
 		case KEY_MOVE_FORWARD:
@@ -68,9 +64,11 @@ void GameCharPlayer::HandleKeyEvent(int key, bool bIsPressed)
 
 void GameCharPlayer::Update(GLfloat deltaTime)
 {
-	m_playerTimer += deltaTime;
-	if (m_playerTimer > PLAYER_CHARACTER_ATTACK_SPEED) {
-		m_playerTimer -= PLAYER_CHARACTER_ATTACK_SPEED;
+	// Update timer
+	m_playerAttackTimer += deltaTime;
+
+	if (m_playerAttackTimer > PLAYER_CHARACTER_ATTACK_SPEED * m_playerAttackSpeedMultiplyer) {
+		m_playerAttackTimer -= PLAYER_CHARACTER_ATTACK_SPEED * m_playerAttackSpeedMultiplyer;
 		SetPlayerProjectileReady(true);
 	}
 
@@ -82,23 +80,27 @@ void GameCharPlayer::Update(GLfloat deltaTime)
 	if (m_moveDirection & CHAR_MOVE_DIRECTION_LEFT) xMove = -1.0;
 	if (m_moveDirection & CHAR_MOVE_DIRECTION_RIGHT) xMove = 1.0;
 
-
 	Vector2 oldPos = this->Get2DPosition();
+	Vector2 newPos;
 
-	//std::cout << "old" << m_moveDirection << " " << oldPos.x << " " << oldPos.y << std::endl;
-	//std::cout << "new" << oldPos.x + xMove * deltaTime << " " << oldPos.y + yMove * deltaTime << std::endl;
+	newPos.x = oldPos.x + xMove * deltaTime * m_moveSpeedHorizontal * m_playerMovementSpeedMultiplyer;
+	newPos.y = oldPos.y + yMove * deltaTime * m_moveSpeedVertical * m_playerMovementSpeedMultiplyer;
 
-	this->Set2DPosition(oldPos.x + xMove * deltaTime * m_moveSpeedHorizontal, oldPos.y + yMove * deltaTime * m_moveSpeedVertical);
-}
+	if (newPos.x < FIELD_LEFT_BOUND) {
+		newPos.x = FIELD_LEFT_BOUND;
+	}
+	else if (newPos.x > FIELD_RIGHT_BOUND) {
+		newPos.x = FIELD_RIGHT_BOUND;
+	}
 
-GLint GameCharPlayer::GetPlayerCharacter()
-{
-	return m_playerCharacter;
-}
+	if (newPos.y < FIELD_UPPER_BOUND) {
+		newPos.y = FIELD_UPPER_BOUND;
+	}
+	else if (newPos.y > FIELD_LOWER_BOUND) {
+		newPos.y = FIELD_LOWER_BOUND;
+	}
 
-void GameCharPlayer::SetPlayerCharacter(GLint playerCharacter)
-{
-	m_playerCharacter = playerCharacter;
+	this->Set2DPosition(newPos);
 }
 
 GLint GameCharPlayer::GetPlayerId()
@@ -111,6 +113,11 @@ void GameCharPlayer::SetPlayerId(GLint playerId)
 	m_playerId = playerId;
 }
 
+GLint GameCharPlayer::GetPlayerChar()
+{
+	return m_playerChar;
+}
+
 bool GameCharPlayer::GetPlayerProjectileReady()
 {
 	return m_playerProjectileReady;
@@ -119,4 +126,18 @@ bool GameCharPlayer::GetPlayerProjectileReady()
 void GameCharPlayer::SetPlayerProjectileReady(bool ready)
 {
 	m_playerProjectileReady = ready;
+}
+
+bool GameCharPlayer::GetPlayerSkillReady()
+{
+	return m_playerSkillReady;
+}
+
+void GameCharPlayer::SetPlayerSkillReady(bool ready)
+{
+	m_playerSkillReady = ready;
+}
+
+void GameCharPlayer::ActivateSkill()
+{
 }

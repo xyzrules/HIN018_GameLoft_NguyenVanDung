@@ -19,6 +19,12 @@
     <Filter Include="TrainingFramework\src\GameObject\AddedGameObject">
       <UniqueIdentifier>{088db2e0-9a79-4f8c-bc6e-7eccaa02ce4f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TrainingFramework\src\GameObject\AddedGameObject\Characters">
+      <UniqueIdentifier>{a3ab2aee-8038-49a2-a716-b61d8930b128}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TrainingFramework\src\GameObject\AddedGameObject\Enemies">
+      <UniqueIdentifier>{f0c03301-a9ff-427f-8ec5-116b8deff10f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -98,6 +104,33 @@
     </ClCompile>
     <ClCompile Include="src\GameObject\GameProjectile.cpp">
       <Filter>TrainingFramework\src\GameObject\AddedGameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameManager\GameManager.cpp">
+      <Filter>TrainingFramework\src\GameManager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\Characters\GameCharDrow.cpp">
+      <Filter>TrainingFramework\src\GameObject\AddedGameObject\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\Characters\GameCharCM.cpp">
+      <Filter>TrainingFramework\src\GameObject\AddedGameObject\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\Enemies\GameCharEnemyMelee.cpp">
+      <Filter>TrainingFramework\src\GameObject\AddedGameObject\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\Characters\GameCharWind.cpp">
+      <Filter>TrainingFramework\src\GameObject\AddedGameObject\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\Characters\GameCharLina.cpp">
+      <Filter>TrainingFramework\src\GameObject\AddedGameObject\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\Enemies\GameCharEnemyRange.cpp">
+      <Filter>TrainingFramework\src\GameObject\AddedGameObject\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\Enemies\GameCharEnemyTank.cpp">
+      <Filter>TrainingFramework\src\GameObject\AddedGameObject\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\Enemies\GameCharEnemyRangeProjectile.cpp">
+      <Filter>TrainingFramework\src\GameObject\AddedGameObject\Enemies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -184,6 +217,33 @@
     </ClInclude>
     <ClInclude Include="src\GameObject\GameProjectile.h">
       <Filter>TrainingFramework\src\GameObject\AddedGameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameManager\GameManager.h">
+      <Filter>TrainingFramework\src\GameManager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\Characters\GameCharDrow.h">
+      <Filter>TrainingFramework\src\GameObject\AddedGameObject\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\Characters\GameCharCM.h">
+      <Filter>TrainingFramework\src\GameObject\AddedGameObject\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\Enemies\GameCharEnemyMelee.h">
+      <Filter>TrainingFramework\src\GameObject\AddedGameObject\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\Characters\GameCharWind.h">
+      <Filter>TrainingFramework\src\GameObject\AddedGameObject\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\Enemies\GameCharEnemyRange.h">
+      <Filter>TrainingFramework\src\GameObject\AddedGameObject\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\Enemies\GameCharEnemyTank.h">
+      <Filter>TrainingFramework\src\GameObject\AddedGameObject\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\Enemies\GameCharEnemyRangeProjectile.h">
+      <Filter>TrainingFramework\src\GameObject\AddedGameObject\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\Characters\GameCharLina.h">
+      <Filter>TrainingFramework\src\GameObject\AddedGameObject\Characters</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

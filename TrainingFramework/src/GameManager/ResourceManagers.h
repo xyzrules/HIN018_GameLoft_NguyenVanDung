@@ -14,7 +14,13 @@
 #include "GameObject/GameCharEnemy.h"
 #include "GameObject/GameCharPlayer.h"
 #include "GameObject/GameProjectile.h"
-
+#include "GameObject/Characters/GameCharCM.h"
+#include "GameObject/Characters/GameCharDrow.h"
+#include "GameObject/Characters/GameCharWind.h"
+#include "GameObject/Characters/GameCharLina.h"
+#include "GameObject/Enemies/GameCharEnemyMelee.h"
+#include "GameObject/Enemies/GameCharEnemyRange.h"
+#include "GameObject/Enemies/GameCharEnemyTank.h"
 
 class ResourceManagers : public CSingleton<ResourceManagers>
 {

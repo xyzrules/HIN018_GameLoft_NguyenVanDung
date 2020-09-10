@@ -26,23 +26,37 @@ void GSMenu::Init()
 	m_BackGround->Set2DPosition(screenWidth / 2, screenHeight / 2);
 	m_BackGround->SetSize(screenWidth, screenHeight);
 
-	//play button
-	texture = ResourceManagers::GetInstance()->GetTexture("button_play");
+	//1 player button
+	texture = ResourceManagers::GetInstance()->GetTexture("button_play_1p");
 	std::shared_ptr<GameButton> button = std::make_shared<GameButton>(model, shader, texture);
-	button->Set2DPosition(screenWidth / 4, MENU_BUTTON_POS_PLAY);
-	button->SetSize(200, 50);
+	button->Set2DPosition(screenWidth / 4, MENU_BUTTON_POS_PLAY_1);
+	button->SetSize(200, 100);
 	button->SetOnClick([]() {
-		GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_Play);
+		GameManager::GetInstance()->SetNumberOfPlayers(1);
+		GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_CharacterSelect);
 		});
 	m_listButton.push_back(button);
 
+	//2 players button
+	// fix
+	/*
+	texture = ResourceManagers::GetInstance()->GetTexture("button_play_2p");
+	button = std::make_shared<GameButton>(model, shader, texture);
+	button->Set2DPosition(screenWidth / 4, MENU_BUTTON_POS_PLAY_2);
+	button->SetSize(200, 100);
+	button->SetOnClick([]() {
+		GameManager::GetInstance()->SetNumberOfPlayers(2);
+		GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_CharacterSelect);
+		});
+	m_listButton.push_back(button);
+	*/
 	//option button
 	texture = ResourceManagers::GetInstance()->GetTexture("button_option");
 	button = std::make_shared<GameButton>(model, shader, texture);
 	button->Set2DPosition(screenWidth / 4, MENU_BUTTON_POS_OPTION);
-	button->SetSize(200, 50);
+	button->SetSize(200, 100);
 	button->SetOnClick([]() {
-		GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_Option);
+		GameStateMachine::GetInstance()->PushState(StateTypes::STATE_Option);
 		});
 	m_listButton.push_back(button);
 
@@ -50,17 +64,17 @@ void GSMenu::Init()
 	texture = ResourceManagers::GetInstance()->GetTexture("button_credits");
 	button = std::make_shared<GameButton>(model, shader, texture);
 	button->Set2DPosition(screenWidth / 4, MENU_BUTTON_POS_CREDITS);
-	button->SetSize(200, 50);
+	button->SetSize(200, 100);
 	button->SetOnClick([]() {
-		GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_Credits);
+		GameStateMachine::GetInstance()->PushState(StateTypes::STATE_Credits);
 		});
 	m_listButton.push_back(button);
 
 	//exit button
-	texture = ResourceManagers::GetInstance()->GetTexture("button_exit");
+	texture = ResourceManagers::GetInstance()->GetTexture("button_quit");
 	button = std::make_shared<GameButton>(model, shader, texture);
 	button->Set2DPosition(screenWidth / 4, MENU_BUTTON_POS_EXIT);
-	button->SetSize(200, 50);
+	button->SetSize(200, 100);
 	button->SetOnClick([]() {
 		exit(0);
 		});

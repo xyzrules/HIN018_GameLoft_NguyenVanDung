@@ -66,7 +66,7 @@ void GameStateMachine::PopState()
 	m_pActiveState = m_StatesStack.back();
 }
 
-void  GameStateMachine::PerformStateChange()
+void GameStateMachine::PerformStateChange()
 {
 	if (m_pNextState != 0)
 	{

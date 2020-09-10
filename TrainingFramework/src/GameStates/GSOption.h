@@ -1,5 +1,6 @@
 #pragma once
 #include "gamestatebase.h"
+#include "GameButton.h"
 
 class GSOption :
 	public GameStateBase
@@ -21,5 +22,7 @@ public:
 	void Draw();
 
 private:
+	std::shared_ptr<Sprite2D> m_BackGround;
+	std::list<std::shared_ptr<GameButton>>	m_listButton;
 };
 

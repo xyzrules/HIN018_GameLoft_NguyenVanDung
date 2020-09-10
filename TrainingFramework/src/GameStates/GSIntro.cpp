@@ -1,6 +1,5 @@
 #include "GSIntro.h"
 
-
 extern int screenWidth; //need get on Graphic engine
 extern int screenHeight; //need get on Graphic engine
 
@@ -18,6 +17,8 @@ GSIntro::~GSIntro()
 
 void GSIntro::Init()
 {
+	GameManager::GetInstance()->Init();
+
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
 	auto shader = ResourceManagers::GetInstance()->GetShader("AnimationShader");
 	auto texture = ResourceManagers::GetInstance()->GetTexture("logo");

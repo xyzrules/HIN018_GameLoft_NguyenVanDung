@@ -36,6 +36,8 @@ void AnimationSprite::Init()
 
 void AnimationSprite::Draw()
 {
+	//std::cout << " " << std::endl;
+
 	glUseProgram(m_pShader->program);
 	glBindBuffer(GL_ARRAY_BUFFER, m_pModel->GetVertexObject());
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pModel->GetIndiceObject());

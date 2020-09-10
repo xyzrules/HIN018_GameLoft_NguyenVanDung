@@ -1,5 +1,6 @@
 #pragma once
 #include "AnimationSprite.h"
+#include "GameManager.h"
 
 enum CHAR_MOVE_DIRECTION {
 	CHAR_MOVE_DIRECTION_UP		=	1 << 0,
@@ -13,17 +14,32 @@ class GameCharacter :
 {
 public:
 	GameCharacter(std::shared_ptr<Models> model, std::shared_ptr<Shaders> shader, std::shared_ptr<Texture> texture, int numFrames, float frameTime);
-	GameCharacter(std::shared_ptr<Models> model, std::shared_ptr<Shaders> shader, std::shared_ptr<Texture> texture, int numFrames, float frameTime, GLfloat moveSpeedVertical, GLfloat moveSpeedHorizontal);
 	~GameCharacter();
 
-
+	// Move
 	virtual void SetMoveDirection();
-	void SetMoveSpeed(GLint moveSpeed);
+
+	// Hitbox
+	GLfloat GetHitboxVertical();
+	GLfloat GetHitboxHorizontal();
+	
+	// Health & Damage
+	void TakeDamage(GLfloat damage);
+	GLfloat GetDamagePoint();
+	bool GetCharacterAlive();
+
+	// Other
+	std::string GetSprite();
 	void Update(GLfloat deltaTime);
-	bool GetCharacterFacingRight();
+	
+
 
 protected:
-	bool m_charFacingRight;
+	bool m_characterAlive;
 	GLint m_moveDirection;
+	GLfloat m_healthPoints, m_damagePoints;
 	GLfloat m_moveSpeedVertical, m_moveSpeedHorizontal;
+	GLfloat m_hitboxVertical, m_hitboxHorizontal;
+	std::string m_spriteName;
+
 };

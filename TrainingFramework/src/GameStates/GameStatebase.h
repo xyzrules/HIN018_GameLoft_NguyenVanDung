@@ -1,6 +1,7 @@
 #pragma once
 #include "GameStateMachine.h"
 #include "GameManager/ResourceManagers.h"
+#include "GameManager/GameManager.h"
 
 
 class GameStateBase
