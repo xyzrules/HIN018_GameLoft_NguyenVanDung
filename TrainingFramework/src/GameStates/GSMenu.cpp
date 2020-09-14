@@ -59,12 +59,12 @@ void GSMenu::Init()
 	m_listButton.push_back(button);
 
 	//option button
-	texture = ResourceManagers::GetInstance()->GetTexture("button_option");
+	texture = ResourceManagers::GetInstance()->GetTexture("button_help");
 	button = std::make_shared<GameButton>(model, shader, texture);
 	button->Set2DPosition(screenWidth / 4, MENU_BUTTON_POS_OPTION);
 	button->SetSize(200, 100);
 	button->SetOnClick([]() {
-		GameStateMachine::GetInstance()->PushState(StateTypes::STATE_Option);
+		GameStateMachine::GetInstance()->PushState(StateTypes::STATE_HowToPlay);
 		});
 	m_listButton.push_back(button);
 

@@ -10,6 +10,7 @@
 #include "GSOption.h"
 #include "GSInGamePause.h"
 #include "GSEndGame.h"
+#include "GSHowToPlay.h"
 
 #include "GameStatebase.h"
 
@@ -44,6 +45,8 @@ std::shared_ptr<GameStateBase> GameStateBase::CreateState(StateTypes stt)
 	case STATE_EndGame:
 		gs = std::make_shared<GSEndGame>();
 		break;
+	case STATE_HowToPlay:
+		gs = std::make_shared<GSHowToPlay>();
 	default:
 		break;
 	}
