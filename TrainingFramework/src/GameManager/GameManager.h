@@ -125,7 +125,7 @@
 
 // Gameplay set up
 #define ANCIENT_HITBOX_RANGE					70.0f
-#define ANCIENT_HEALTH_POINTS					10.0f		// points
+#define ANCIENT_HEALTH_POINTS					100.0f		// points
 
 #define ENEMY_NUMBER_MULTIPLYER					1.3f
 #define ENEMY_NUMBER_STARTING_MAX				3.0f
@@ -136,7 +136,7 @@
 #define RUSH_STARTING_TIMER						2.0f
 #define RUSH_TIMER_MULTIPLYER					0.99f
 
-#define PAUSE_AFTER_WAVES						3			// waves
+#define PAUSE_AFTER_WAVES						5			// waves
 
 enum Characters_Id
 {
