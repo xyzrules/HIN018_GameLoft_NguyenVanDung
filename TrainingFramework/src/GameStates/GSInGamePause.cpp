@@ -22,22 +22,30 @@ void GSInGamePause::Init()
 	m_BackGround->Set2DPosition(screenWidth / 2, screenHeight / 2);
 	m_BackGround->SetSize(screenWidth, screenHeight);
 
-	//back button
-	texture = ResourceManagers::GetInstance()->GetTexture("button_back");
+	// splash
+	texture = ResourceManagers::GetInstance()->GetTexture("splash_pause");
+	
+	m_splashPause = std::make_shared<Sprite2D>(model, shader, texture);
+	m_splashPause->Set2DPosition(screenWidth / 2, screenHeight / 3);
+	m_splashPause->SetSize(600, 300);
+
+	//quit button
+	// fix
+	texture = ResourceManagers::GetInstance()->GetTexture("button_give_up");
 	std::shared_ptr<GameButton> button = std::make_shared<GameButton>(model, shader, texture);
-	button->Set2DPosition(screenWidth * 3 / 5, 400);
+	button->Set2DPosition(screenWidth * 3 / 5, 550);
 	button->SetSize(200, 100);
 	button->SetOnClick([]() {
 		GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_Menu);
 		});
 	m_listButton.push_back(button);
 
-	//replay button
-	texture = ResourceManagers::GetInstance()->GetTexture("button_play_1p");button = std::make_shared<GameButton>(model, shader, texture);
-	button->Set2DPosition(screenWidth * 2 / 5, 400);
+	//resume button
+	texture = ResourceManagers::GetInstance()->GetTexture("button_resume");button = std::make_shared<GameButton>(model, shader, texture);
+	button->Set2DPosition(screenWidth * 2 / 5, 550);
 	button->SetSize(200, 100);
 	button->SetOnClick([]() {
-		GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_CharacterSelect);
+		GameStateMachine::GetInstance()->PopState();
 		});
 	m_listButton.push_back(button);
 }
@@ -83,6 +91,7 @@ void GSInGamePause::Update(float deltaTime)
 void GSInGamePause::Draw()
 {
 	m_BackGround->Draw();
+	m_splashPause->Draw();
 	for (auto it : m_listButton)
 	{
 		it->Draw();

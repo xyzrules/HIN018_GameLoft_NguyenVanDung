@@ -2,13 +2,14 @@
 #include "BaseObject.h"
 
 enum class TEXT_COLOR {
-	WHILE = 0,
+	WHITE = 0,
 	RED,
 	GREEN,
 	BLUE,
 	YELLOW,
 	PURPLE,
 	CYAN,
+	DARK_BLUE,
 	BLACK
 };
 

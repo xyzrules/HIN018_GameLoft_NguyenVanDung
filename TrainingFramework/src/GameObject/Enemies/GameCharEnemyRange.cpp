@@ -1,7 +1,7 @@
 #include "GameCharEnemyRange.h"
 
 GameCharEnemyRange::GameCharEnemyRange(std::shared_ptr<Models> model, std::shared_ptr<Shaders> shader, std::shared_ptr<Texture> texture, int numFrames, float frameTime)
-	:GameCharEnemy(model, shader, texture, numFrames, frameTime)
+	:GameCharEnemy(model, shader, texture, numFrames, frameTime), m_enemyAttackTimer(0), m_enemyProjectileReady(false)
 {
 	m_healthPoints = ENEMY_RANGE_STARTING_HEALTH_POINTS;
 	m_damagePoints = ENEMY_RANGE_DAMAGE;
@@ -21,6 +21,15 @@ GameCharEnemyRange::~GameCharEnemyRange()
 
 void GameCharEnemyRange::Update(GLfloat deltaTime)
 {
+	m_enemyAttackTimer += deltaTime;
+	
+	if (m_enemyAttackTimer > ENEMY_RANGE_ATTACK_SPEED)
+	{
+		//std::cout << m_enemyAttackTimer << std::endl;
+		m_enemyAttackTimer = 0;
+		m_enemyProjectileReady = true;
+	}
+
 	AnimationSprite::Update(deltaTime);
 	GLfloat xMove = 0.0, yMove = 0.0;
 	if (m_moveDirection & CHAR_MOVE_DIRECTION_UP) yMove = -1.0;
@@ -30,6 +39,22 @@ void GameCharEnemyRange::Update(GLfloat deltaTime)
 
 
 	Vector2 oldPos = this->Get2DPosition();
+	Vector2 newPos;
+	newPos.x = oldPos.x + xMove * deltaTime * m_moveSpeedHorizontal * m_moveSpeedMultiplyer;
+	newPos.y = oldPos.y + yMove * deltaTime * m_moveSpeedVertical * m_moveSpeedMultiplyer;
 
-	this->Set2DPosition(oldPos.x + xMove * deltaTime * m_moveSpeedHorizontal, oldPos.y + yMove * deltaTime * m_moveSpeedVertical);
+	if (newPos.x < FIELD_RIGHT_BOUND) {
+		newPos.x = FIELD_RIGHT_BOUND;
+	}
+
+	this->Set2DPosition(newPos);
+}
+
+bool GameCharEnemyRange::EnemySpecial()
+{
+	if (m_enemyProjectileReady) {
+		m_enemyProjectileReady = false;
+		return true;
+	}
+	return false;
 }

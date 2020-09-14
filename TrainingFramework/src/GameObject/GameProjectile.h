@@ -24,5 +24,6 @@ public:
 
 private:
 	GLint m_projectileChar;
-	GLint m_projectileType;	
+	GLint m_projectileType;
+	GLfloat m_projectileTimer;
 };

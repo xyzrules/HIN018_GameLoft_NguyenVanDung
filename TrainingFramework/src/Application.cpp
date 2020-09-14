@@ -4,6 +4,7 @@
 extern GLint screenWidth;
 extern GLint screenHeight;
 
+SoLoud::Soloud Application::gSoloud;
 
 Application::Application()
 {
@@ -18,7 +19,9 @@ Application::~Application()
 void Application::Init()
 {
 	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+	gSoloud.init();
 	GameStateMachine::GetInstance()->PushState(StateTypes::STATE_Intro);
+	
 }
 
 void Application::Update(GLfloat deltaTime)
@@ -53,5 +56,6 @@ void Application::HandleTouchEvent(GLint x, GLint y, bool bIsPresseded)
 
 void Application::Exit()
 {
+	gSoloud.deinit();
 	exit(0);
 }

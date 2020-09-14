@@ -1,10 +1,10 @@
 #include "GameCharPlayer.h"
 
-GameCharPlayer::GameCharPlayer(std::shared_ptr<Models> model, std::shared_ptr<Shaders> shader, std::shared_ptr<Texture> texture, int numFrames, float frameTime)
+GameCharPlayer::GameCharPlayer(std::shared_ptr<Models> model, std::shared_ptr<Shaders> shader, std::shared_ptr<Texture> texture, int numFrames, float frameTime, int playerId)
 	: GameCharacter(model, shader, texture, numFrames, frameTime),
-	m_playerId(0),
-	m_playerProjectileReady(false),
-	m_playerAttackTimer(0), m_playerSkillTimer(0), m_playerDeathTimer(0),
+	m_playerId(playerId),
+	m_playerProjectileReady(false), m_playerSkillReady(true), m_playerSkillActivated(false), m_playerSkillEnded(true),
+	m_playerAttackTimer(0), m_playerSkillTimer(0), m_playerDeathTimer(0), m_playerSkillDurationTimer(0),
 	m_playerAttackSpeedMultiplyer(1.0f), m_playerMovementSpeedMultiplyer(1.0f)
 {
 	m_healthPoints = PLAYER_HEALTH_POINTS;
@@ -25,38 +25,82 @@ GameCharPlayer::~GameCharPlayer()
 
 void GameCharPlayer::HandleKeyEvent(int key, bool bIsPressed)
 {
-	if (bIsPressed) {
-		switch (key){
-		case KEY_MOVE_LEFT:
-			m_moveDirection |= CHAR_MOVE_DIRECTION_LEFT;
-			break;
-		case KEY_MOVE_RIGHT:
-			m_moveDirection |= CHAR_MOVE_DIRECTION_RIGHT;
-			break;
-		case KEY_MOVE_FORWARD:
-			m_moveDirection |= CHAR_MOVE_DIRECTION_UP;
-			break;
-		case KEY_MOVE_BACKWARD:
-			m_moveDirection |= CHAR_MOVE_DIRECTION_DOWN;
-			break;
-		};
+	if (m_playerId == 1) {
+		if (bIsPressed) {
+			switch (key) {
+			case KEY_PLAYER1_LEFT:
+				m_moveDirection |= CHAR_MOVE_DIRECTION_LEFT;
+				break;
+			case KEY_PLAYER1_RIGHT:
+				m_moveDirection |= CHAR_MOVE_DIRECTION_RIGHT;
+				break;
+			case KEY_PLAYER1_UP:
+				m_moveDirection |= CHAR_MOVE_DIRECTION_UP;
+				break;
+			case KEY_PLAYER1_DOWN:
+				m_moveDirection |= CHAR_MOVE_DIRECTION_DOWN;
+				break;
+			case KEY_PLAYER1_SKILL:
+				if (m_playerSkillReady)	ActivateSkill();
+				break;
+			};
+		}
+
+		else {
+			switch (key) {
+			case KEY_PLAYER1_LEFT:
+				m_moveDirection &= ~CHAR_MOVE_DIRECTION_LEFT;
+				break;
+			case KEY_PLAYER1_RIGHT:
+				m_moveDirection &= ~CHAR_MOVE_DIRECTION_RIGHT;
+				break;
+			case KEY_PLAYER1_UP:
+				m_moveDirection &= ~CHAR_MOVE_DIRECTION_UP;
+				break;
+			case KEY_PLAYER1_DOWN:
+				m_moveDirection &= ~CHAR_MOVE_DIRECTION_DOWN;
+				break;
+			};
+		}
 	}
 
-	else {
-		switch (key) {
-		case KEY_MOVE_LEFT:
-			m_moveDirection &= ~CHAR_MOVE_DIRECTION_LEFT;
-			break;
-		case KEY_MOVE_RIGHT:
-			m_moveDirection &= ~CHAR_MOVE_DIRECTION_RIGHT;
-			break;
-		case KEY_MOVE_FORWARD:
-			m_moveDirection &= ~CHAR_MOVE_DIRECTION_UP;
-			break;
-		case KEY_MOVE_BACKWARD:
-			m_moveDirection &= ~CHAR_MOVE_DIRECTION_DOWN;
-			break;
-		};
+	else if (m_playerId == 2) {
+		if (bIsPressed) {
+			switch (key) {
+			case KEY_PLAYER2_LEFT:
+				m_moveDirection |= CHAR_MOVE_DIRECTION_LEFT;
+				break;
+			case KEY_PLAYER2_RIGHT:
+				m_moveDirection |= CHAR_MOVE_DIRECTION_RIGHT;
+				break;
+			case KEY_PLAYER2_UP:
+				m_moveDirection |= CHAR_MOVE_DIRECTION_UP;
+				break;
+			case KEY_PLAYER2_DOWN:
+				m_moveDirection |= CHAR_MOVE_DIRECTION_DOWN;
+				break;
+			case KEY_PLAYER2_SKILL:
+				if (m_playerSkillReady)	ActivateSkill();
+				break;
+			};
+		}
+
+		else {
+			switch (key) {
+			case KEY_PLAYER2_LEFT:
+				m_moveDirection &= ~CHAR_MOVE_DIRECTION_LEFT;
+				break;
+			case KEY_PLAYER2_RIGHT:
+				m_moveDirection &= ~CHAR_MOVE_DIRECTION_RIGHT;
+				break;
+			case KEY_PLAYER2_UP:
+				m_moveDirection &= ~CHAR_MOVE_DIRECTION_UP;
+				break;
+			case KEY_PLAYER2_DOWN:
+				m_moveDirection &= ~CHAR_MOVE_DIRECTION_DOWN;
+				break;
+			};
+		}
 	}
 
 	//std::cout << key << " " << bIsPressed << " " << m_moveDirection << std::endl;
@@ -65,13 +109,36 @@ void GameCharPlayer::HandleKeyEvent(int key, bool bIsPressed)
 void GameCharPlayer::Update(GLfloat deltaTime)
 {
 	// Update timer
+		// attack
 	m_playerAttackTimer += deltaTime;
-
-	if (m_playerAttackTimer > PLAYER_CHARACTER_ATTACK_SPEED * m_playerAttackSpeedMultiplyer) {
+	if (m_playerAttackTimer > PLAYER_CHARACTER_ATTACK_SPEED* m_playerAttackSpeedMultiplyer)
+	{
 		m_playerAttackTimer -= PLAYER_CHARACTER_ATTACK_SPEED * m_playerAttackSpeedMultiplyer;
 		SetPlayerProjectileReady(true);
 	}
 
+		// skill cooldown
+	if (m_playerSkillTimer <= 0)
+	{
+		m_playerSkillReady = true;
+	}
+	else {
+		m_playerSkillTimer -= deltaTime;
+	}
+
+		//	skill duration
+	if (m_playerSkillDurationTimer <= 0){
+		m_playerSkillDurationTimer = 0;
+		if (m_playerChar == CHAR_WR && m_playerSkillEnded == false)
+		{
+			m_playerAttackSpeedMultiplyer /= SKILL_WIND_ATTACK_SPEED_MULTIPLYER;
+			m_playerMovementSpeedMultiplyer /= SKILL_WIND_MOVEMENT_SPEED_MULTIPLYER;
+		}
+		m_playerSkillEnded = true;
+	}
+	else m_playerSkillDurationTimer -= deltaTime;
+	
+	//	Update movement
 	AnimationSprite::Update(deltaTime);
 
 	GLfloat xMove = 0.0, yMove = 0.0;
@@ -86,6 +153,7 @@ void GameCharPlayer::Update(GLfloat deltaTime)
 	newPos.x = oldPos.x + xMove * deltaTime * m_moveSpeedHorizontal * m_playerMovementSpeedMultiplyer;
 	newPos.y = oldPos.y + yMove * deltaTime * m_moveSpeedVertical * m_playerMovementSpeedMultiplyer;
 
+	// Set field boundaries
 	if (newPos.x < FIELD_LEFT_BOUND) {
 		newPos.x = FIELD_LEFT_BOUND;
 	}
@@ -133,11 +201,23 @@ bool GameCharPlayer::GetPlayerSkillReady()
 	return m_playerSkillReady;
 }
 
-void GameCharPlayer::SetPlayerSkillReady(bool ready)
+
+GLfloat GameCharPlayer::GetPlayerSkillTimer()
 {
-	m_playerSkillReady = ready;
+	return m_playerSkillTimer;
 }
 
-void GameCharPlayer::ActivateSkill()
+bool GameCharPlayer::GetPlayerSkillEnded()
 {
+	return m_playerSkillEnded;
 }
+
+bool GameCharPlayer::GetPlayerSkillActivated()
+{
+	if (m_playerSkillActivated) {
+		m_playerSkillActivated = false;
+		return true;
+	}
+	return false;
+}
+

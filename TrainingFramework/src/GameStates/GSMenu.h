@@ -3,11 +3,11 @@
 #include "GameButton.h"
 
 enum MENU_BUTTON_POS {
-	MENU_BUTTON_POS_PLAY_1 = 200,
-	MENU_BUTTON_POS_PLAY_2 = 300,
-	MENU_BUTTON_POS_OPTION = 400,
-	MENU_BUTTON_POS_CREDITS = 500,
-	MENU_BUTTON_POS_EXIT = 600,
+	MENU_BUTTON_POS_PLAY_1 = 150,
+	MENU_BUTTON_POS_PLAY_2 = 250,
+	MENU_BUTTON_POS_OPTION = 350,
+	MENU_BUTTON_POS_CREDITS = 450,
+	MENU_BUTTON_POS_EXIT = 550,
 };
 
 class GSMenu :
@@ -30,8 +30,8 @@ public:
 	void Draw();
 
 private:
-	std::shared_ptr<Sprite2D> m_BackGround;
+	std::shared_ptr<Sprite2D> m_BackGround, m_Logo;
 	std::list<std::shared_ptr<GameButton>>	m_listButton;
-	std::shared_ptr<Text>  m_Text_gameName;
+	std::shared_ptr<SoLoud::WavStream> m_BGMenuSound;
 };
 

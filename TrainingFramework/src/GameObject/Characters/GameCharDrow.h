@@ -4,9 +4,10 @@
 
 class GameCharDrow : public GameCharPlayer {
 public:
-	GameCharDrow(std::shared_ptr<Models> model, std::shared_ptr<Shaders> shader, std::shared_ptr<Texture> texture, int numFrames, float frameTime);
+	GameCharDrow(std::shared_ptr<Models> model, std::shared_ptr<Shaders> shader, std::shared_ptr<Texture> texture, int numFrames, float frameTime, int playerId);
 	~GameCharDrow();
 
-private:
 	
+private:
+	void ActivateSkill();
 };

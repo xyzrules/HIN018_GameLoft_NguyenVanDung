@@ -10,6 +10,7 @@
 #include "GameObject/Sprite2D.h"
 #include "GameObject/Sprite3D.h"
 #include "GameObject/Text.h"
+#include "Application.h"
 #include "GameObject/GameCharacter.h"
 #include "GameObject/GameCharEnemy.h"
 #include "GameObject/GameCharPlayer.h"
@@ -21,6 +22,7 @@
 #include "GameObject/Enemies/GameCharEnemyMelee.h"
 #include "GameObject/Enemies/GameCharEnemyRange.h"
 #include "GameObject/Enemies/GameCharEnemyTank.h"
+#include "GameObject/Enemies/GameCharEnemyRangeProjectile.h"
 
 class ResourceManagers : public CSingleton<ResourceManagers>
 {
@@ -51,5 +53,4 @@ private:
 	std::string m_TexturePath;
 	std::string m_ModelsPath;
 	std::string m_FontPath;
-
 };

@@ -14,7 +14,7 @@ GSCredits::~GSCredits()
 void GSCredits::Init()
 {
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
-	auto texture = ResourceManagers::GetInstance()->GetTexture("bg_main_menu");
+	auto texture = ResourceManagers::GetInstance()->GetTexture("bg_credits");
 
 	//BackGround
 	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
@@ -22,11 +22,11 @@ void GSCredits::Init()
 	m_BackGround->Set2DPosition(screenWidth / 2, screenHeight / 2);
 	m_BackGround->SetSize(screenWidth, screenHeight);
 
-	//option button
+	//back button
 	texture = ResourceManagers::GetInstance()->GetTexture("button_back");
 	std::shared_ptr<GameButton> button = std::make_shared<GameButton>(model, shader, texture);
 	button->Set2DPosition(screenWidth * 3 / 4, 600);
-	button->SetSize(200, 50);
+	button->SetSize(200, 100);
 	button->SetOnClick([]() {
 		GameStateMachine::GetInstance()->PopState();
 		});

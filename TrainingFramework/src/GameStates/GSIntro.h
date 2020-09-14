@@ -23,5 +23,6 @@ public:
 private:
 	std::shared_ptr<AnimationSprite> m_logo;
 	float m_time;
+	std::shared_ptr<SoLoud::Wav> m_introSound;
 };
 

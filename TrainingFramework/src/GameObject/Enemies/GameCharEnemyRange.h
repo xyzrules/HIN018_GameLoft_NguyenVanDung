@@ -7,6 +7,9 @@ public:
 	~GameCharEnemyRange();
 
 	void Update(GLfloat deltaTime);
+	bool EnemySpecial();
 private:
-
+	bool m_enemyProjectileReady;
+	GLfloat m_enemyAttackTimer;
+	
 };

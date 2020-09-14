@@ -17,6 +17,7 @@ GSIntro::~GSIntro()
 
 void GSIntro::Init()
 {
+	Application::gSoloud.stopAll();
 	GameManager::GetInstance()->Init();
 
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
@@ -26,6 +27,11 @@ void GSIntro::Init()
 	m_logo = std::make_shared<AnimationSprite>(model, shader, texture, 6, 0.13f, 3);
 	m_logo->Set2DPosition(screenWidth / 2, screenHeight / 2);
 	m_logo->SetSize(83, 104);
+
+	m_introSound = std::make_shared<SoLoud::Wav>();
+	m_introSound->load("..\\Data\\Sounds\\ohoho.wav");
+
+	Application::gSoloud.play(*m_introSound, GameManager::GetInstance()->GetSfxVolume());
 }
 
 void GSIntro::Exit()
@@ -64,7 +70,7 @@ void GSIntro::Update(float deltaTime)
 {
 	m_logo->Update(deltaTime);
 	m_time += deltaTime;
-	if (m_time > 2.0)
+	if (m_time > 3.0)
 	{
 		GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_Menu);
 		m_time = 0;

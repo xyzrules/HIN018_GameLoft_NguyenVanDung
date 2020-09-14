@@ -135,7 +135,7 @@ Vector4 Text::EnumToVector(TEXT_COLOR color)
 	Vector4 vecColor;
 	switch (color)
 	{
-	case TEXT_COLOR::WHILE:
+	case TEXT_COLOR::WHITE:
 		vecColor = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 		break;
 	case TEXT_COLOR::RED:
@@ -155,6 +155,9 @@ Vector4 Text::EnumToVector(TEXT_COLOR color)
 		break;
 	case TEXT_COLOR::CYAN:
 		vecColor = Vector4(0.0f, 0.9f, 0.9f, 1.0f);
+		break;
+	case TEXT_COLOR::DARK_BLUE:
+		vecColor = Vector4(0.0f, 0.0f, 0.55f, 1.0f);
 		break;
 	default:
 		vecColor = Vector4(1.0f, 1.0f, 1.0f, 1.0f);

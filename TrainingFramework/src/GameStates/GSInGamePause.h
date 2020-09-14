@@ -22,7 +22,7 @@ public:
 	void Draw();
 
 private:
-	std::shared_ptr<Sprite2D> m_BackGround;
+	std::shared_ptr<Sprite2D> m_BackGround, m_splashPause;
 	std::list<std::shared_ptr<GameButton>>	m_listButton;
 };
 
